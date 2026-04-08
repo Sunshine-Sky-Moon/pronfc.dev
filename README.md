@@ -1,2 +1,2 @@
 # sun.github.io
-Private page for iOS test project.
+Private page for App test project.
