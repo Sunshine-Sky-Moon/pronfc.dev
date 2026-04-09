@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 		<title>PRO NFC - 智能电源配置助手 | Smart Power Configuration</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 		<style>
@@ -67,6 +67,11 @@
 				padding: 0;
 				box-sizing: border-box;
 				transition: background-color 0.3s ease, color 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+				-webkit-tap-highlight-color: transparent;
+			}
+
+			html {
+				scroll-behavior: smooth;
 			}
 
 			body {
@@ -76,6 +81,9 @@
 				background-color: var(--background-color);
 				transition: var(--transition);
 				overflow-x: hidden;
+				font-size: 16px;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
 			}
 
 			body::before {
@@ -98,45 +106,46 @@
 				padding: 0 20px;
 			}
 
-			/* 顶部控制栏 */
+			/* 顶部控制栏 - 移动端优化 */
 			.control-bar {
-				background-color: rgba(22, 27, 42, 0.92);
+				background-color: rgba(22, 27, 42, 0.95);
 				backdrop-filter: blur(12px);
-				padding: 12px 0;
+				padding: 10px 0;
 				border-bottom: 1px solid var(--border-color);
 				position: sticky;
 				top: 0;
 				z-index: 1000;
-				box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+				box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
 			}
 
 			.light-mode .control-bar {
-				background-color: rgba(255, 255, 255, 0.92);
+				background-color: rgba(255, 255, 255, 0.95);
 			}
 
 			.controls {
 				display: flex;
 				justify-content: flex-end;
 				align-items: center;
-				gap: 20px;
+				gap: 15px;
 			}
 
 			.control-btn {
 				display: flex;
 				align-items: center;
-				gap: 8px;
+				gap: 6px;
 				background: rgba(255, 255, 255, 0.08);
 				border: 1px solid var(--border-color);
 				color: var(--text-primary);
-				padding: 10px 18px;
-				border-radius: 25px;
+				padding: 8px 14px;
+				border-radius: 20px;
 				cursor: pointer;
 				font-size: 14px;
 				font-weight: 500;
 				transition: var(--transition);
+				min-height: 40px;
 			}
 
-			.control-btn:hover {
+			.control-btn:hover, .control-btn:active {
 				background-color: var(--primary-color);
 				color: white;
 				border-color: var(--primary-color);
@@ -147,14 +156,16 @@
 			.mode-toggle {
 				display: flex;
 				align-items: center;
-				gap: 10px;
+				gap: 8px;
+				font-size: 14px;
 			}
 
 			.toggle-switch {
 				position: relative;
 				display: inline-block;
-				width: 60px;
+				width: 56px;
 				height: 28px;
+				flex-shrink: 0;
 			}
 
 			.toggle-switch input {
@@ -190,21 +201,21 @@
 				background: var(--accent-color);
 				border-radius: 50%;
 				transition: .4s;
-				box-shadow: 0 0 8px var(--accent-color);
+				box-shadow: 0 0 6px var(--accent-color);
 			}
 
 			input:checked+.slider:before {
-				transform: translateX(32px);
+				transform: translateX(28px);
 				background: #FFD700;
-				box-shadow: 0 0 8px #FFD700;
+				box-shadow: 0 0 6px #FFD700;
 			}
 
-			/* 头部样式 */
+			/* 头部样式 - 移动端优化 */
 			header {
 				background: var(--header-bg);
 				color: white;
-				padding: 40px 0;
-				box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+				padding: 30px 0 20px;
+				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 				position: relative;
 				overflow: hidden;
 			}
@@ -224,27 +235,30 @@
 
 			.header-content {
 				display: flex;
-				justify-content: space-between;
+				flex-direction: column;
 				align-items: center;
 				position: relative;
 				z-index: 1;
+				gap: 20px;
 			}
 
 			.logo-container {
 				display: flex;
+				flex-direction: column;
 				align-items: center;
-				gap: 20px;
+				gap: 15px;
+				text-align: center;
 			}
 
 			.logo {
-				width: 80px;
-				height: 80px;
+				width: 70px;
+				height: 70px;
 				background: var(--gradient-1);
-				border-radius: 20px;
+				border-radius: 18px;
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				box-shadow: 0 8px 25px rgba(45, 140, 255, 0.3);
+				box-shadow: 0 6px 20px rgba(45, 140, 255, 0.3);
 				position: relative;
 				overflow: hidden;
 			}
@@ -272,19 +286,20 @@
 			}
 
 			.logo i {
-				font-size: 40px;
+				font-size: 36px;
 				color: white;
 				z-index: 1;
 			}
 
 			.app-title h1 {
-				font-size: 36px;
+				font-size: 28px;
 				font-weight: 800;
-				margin-bottom: 8px;
+				margin-bottom: 6px;
 				background: var(--gradient-1);
 				-webkit-background-clip: text;
 				-webkit-text-fill-color: transparent;
 				background-clip: text;
+				line-height: 1.2;
 			}
 
 			.light-mode .app-title h1 {
@@ -294,14 +309,36 @@
 			}
 
 			.app-title p {
-				font-size: 18px;
+				font-size: 16px;
 				opacity: 0.9;
 				color: var(--accent-color);
 			}
 
-			/* 主内容区域 */
+			nav ul {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 15px;
+				list-style: none;
+			}
+
+			nav a {
+				color: white;
+				text-decoration: none;
+				font-weight: 500;
+				font-size: 15px;
+				padding: 6px 12px;
+				border-radius: 20px;
+				transition: all 0.3s ease;
+			}
+
+			nav a:hover, nav a:active {
+				background-color: rgba(255, 255, 255, 0.1);
+			}
+
+			/* 主内容区域 - 移动端优化 */
 			.hero {
-				padding: 120px 0;
+				padding: 60px 0;
 				text-align: center;
 				background-color: transparent;
 				position: relative;
@@ -321,36 +358,42 @@
 			}
 
 			.hero h2 {
-				font-size: 48px;
-				margin-bottom: 25px;
+				font-size: 28px;
+				margin-bottom: 20px;
 				color: var(--text-primary);
 				font-weight: 700;
-				line-height: 1.2;
+				line-height: 1.3;
 			}
 
 			.hero p {
-				font-size: 20px;
-				max-width: 800px;
-				margin: 0 auto 50px;
+				font-size: 16px;
+				max-width: 100%;
+				margin: 0 auto 30px;
 				color: var(--text-secondary);
+				line-height: 1.6;
+				padding: 0 10px;
 			}
 
 			.download-btn {
 				display: inline-flex;
 				align-items: center;
-				gap: 15px;
+				justify-content: center;
+				gap: 10px;
 				background: var(--gradient-2);
 				color: white;
-				padding: 20px 40px;
-				border-radius: 50px;
+				padding: 16px 28px;
+				border-radius: 30px;
 				text-decoration: none;
 				font-weight: 600;
-				font-size: 18px;
-				box-shadow: 0 8px 25px rgba(0, 229, 255, 0.3);
+				font-size: 16px;
+				box-shadow: 0 6px 20px rgba(0, 229, 255, 0.3);
 				transition: var(--transition);
 				position: relative;
 				overflow: hidden;
 				z-index: 1;
+				min-height: 54px;
+				width: auto;
+				max-width: 100%;
 			}
 
 			.download-btn::before {
@@ -366,52 +409,53 @@
 				transition: opacity 0.3s ease;
 			}
 
-			.download-btn:hover {
-				transform: translateY(-5px) scale(1.05);
-				box-shadow: 0 12px 30px rgba(0, 229, 255, 0.4);
+			.download-btn:hover, .download-btn:active {
+				transform: translateY(-3px) scale(1.03);
+				box-shadow: 0 10px 25px rgba(0, 229, 255, 0.4);
 			}
 
-			.download-btn:hover::before {
+			.download-btn:hover::before, .download-btn:active::before {
 				opacity: 1;
 			}
 
-			/* 功能区域 */
+			/* 功能区域 - 移动端优化 */
 			.section-title {
 				text-align: center;
-				font-size: 40px;
-				margin-bottom: 70px;
+				font-size: 28px;
+				margin-bottom: 40px;
 				color: var(--text-primary);
 				font-weight: 700;
 				position: relative;
+				padding: 0 10px;
 			}
 
 			.section-title::after {
 				content: '';
 				position: absolute;
-				bottom: -15px;
+				bottom: -12px;
 				left: 50%;
 				transform: translateX(-50%);
-				width: 100px;
+				width: 80px;
 				height: 4px;
 				background: var(--gradient-1);
 				border-radius: 2px;
 			}
 
 			.features {
-				padding: 100px 0;
+				padding: 60px 0;
 			}
 
 			.features-grid {
 				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-				gap: 40px;
+				grid-template-columns: 1fr;
+				gap: 25px;
 			}
 
 			.feature-card {
 				background: var(--card-bg);
 				border-radius: var(--radius);
-				padding: 40px 30px;
-				box-shadow: 0 10px 30px var(--shadow-color);
+				padding: 25px 20px;
+				box-shadow: 0 8px 20px var(--shadow-color);
 				border: 1px solid var(--border-color);
 				transition: var(--transition);
 				position: relative;
@@ -428,44 +472,44 @@
 				background: var(--gradient-1);
 			}
 
-			.feature-card:hover {
-				transform: translateY(-10px) scale(1.02);
-				box-shadow: 0 20px 40px var(--shadow-hover), var(--glow);
+			.feature-card:hover, .feature-card:active {
+				transform: translateY(-8px) scale(1.02);
+				box-shadow: 0 15px 30px var(--shadow-hover), var(--glow);
 				border-color: var(--primary-color);
 			}
 
 			.feature-icon {
-				width: 80px;
-				height: 80px;
+				width: 60px;
+				height: 60px;
 				background: rgba(45, 140, 255, 0.1);
-				border-radius: 20px;
+				border-radius: 16px;
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				margin-bottom: 25px;
+				margin-bottom: 20px;
 				position: relative;
 			}
 
 			.feature-icon::after {
 				content: '';
 				position: absolute;
-				top: -5px;
-				left: -5px;
-				right: -5px;
-				bottom: -5px;
-				border-radius: 25px;
+				top: -4px;
+				left: -4px;
+				right: -4px;
+				bottom: -4px;
+				border-radius: 20px;
 				background: var(--gradient-1);
 				z-index: -1;
 				opacity: 0;
 				transition: opacity 0.3s ease;
 			}
 
-			.feature-card:hover .feature-icon::after {
+			.feature-card:hover .feature-icon::after, .feature-card:active .feature-icon::after {
 				opacity: 0.5;
 			}
 
 			.feature-icon i {
-				font-size: 36px;
+				font-size: 28px;
 				background: var(--gradient-1);
 				-webkit-background-clip: text;
 				-webkit-text-fill-color: transparent;
@@ -473,20 +517,22 @@
 			}
 
 			.feature-card h3 {
-				font-size: 24px;
-				margin-bottom: 15px;
+				font-size: 20px;
+				margin-bottom: 12px;
 				color: var(--text-primary);
 				font-weight: 600;
+				line-height: 1.3;
 			}
 
 			.feature-card p {
 				color: var(--text-secondary);
-				line-height: 1.8;
+				line-height: 1.6;
+				font-size: 15px;
 			}
 
-			/* 使用说明 */
+			/* 使用说明 - 移动端优化 */
 			.instructions {
-				padding: 100px 0;
+				padding: 60px 0;
 				background-color: var(--surface-color);
 				position: relative;
 			}
@@ -505,7 +551,7 @@
 			}
 
 			.instructions-container {
-				max-width: 900px;
+				max-width: 100%;
 				margin: 0 auto;
 				position: relative;
 				z-index: 1;
@@ -513,26 +559,30 @@
 
 			.step {
 				display: flex;
-				margin-bottom: 50px;
-				align-items: flex-start;
+				flex-direction: column;
+				margin-bottom: 35px;
+				align-items: center;
+				text-align: center;
 				position: relative;
+				padding: 0 10px;
 			}
 
 			.step:not(:last-child)::after {
 				content: '';
 				position: absolute;
 				top: 70px;
-				left: 25px;
+				left: 50%;
+				transform: translateX(-50%);
 				width: 2px;
-				height: calc(100% + 20px);
+				height: calc(100% + 5px);
 				background: var(--border-color);
 				z-index: 0;
 			}
 
 			.step-number {
 				flex-shrink: 0;
-				width: 60px;
-				height: 60px;
+				width: 50px;
+				height: 50px;
 				background: var(--gradient-1);
 				color: white;
 				border-radius: 50%;
@@ -540,28 +590,30 @@
 				align-items: center;
 				justify-content: center;
 				font-weight: bold;
-				font-size: 24px;
-				margin-right: 30px;
-				box-shadow: 0 8px 20px rgba(45, 140, 255, 0.3);
+				font-size: 22px;
+				margin-bottom: 15px;
+				box-shadow: 0 6px 15px rgba(45, 140, 255, 0.3);
 				position: relative;
 				z-index: 1;
 			}
 
 			.step-content h3 {
-				font-size: 24px;
-				margin-bottom: 15px;
+				font-size: 20px;
+				margin-bottom: 10px;
 				color: var(--text-primary);
 				font-weight: 600;
+				line-height: 1.3;
 			}
 
 			.step-content p {
 				color: var(--text-secondary);
-				line-height: 1.8;
+				line-height: 1.6;
+				font-size: 15px;
 			}
 
-			/* 技术支持 */
+			/* 技术支持 - 移动端优化 */
 			.support {
-				padding: 100px 0;
+				padding: 60px 0;
 				position: relative;
 			}
 
@@ -579,8 +631,8 @@
 			}
 
 			.faq-container {
-				max-width: 900px;
-				margin: 0 auto 60px;
+				max-width: 100%;
+				margin: 0 auto 40px;
 				position: relative;
 				z-index: 1;
 			}
@@ -588,20 +640,20 @@
 			.faq-item {
 				background: var(--card-bg);
 				border-radius: var(--radius);
-				margin-bottom: 20px;
+				margin-bottom: 15px;
 				overflow: hidden;
 				border: 1px solid var(--border-color);
 				transition: var(--transition);
 			}
 
-			.faq-item:hover {
+			.faq-item:hover, .faq-item:active {
 				border-color: var(--primary-color);
 				box-shadow: var(--glow);
 			}
 
 			.faq-question {
-				padding: 25px 30px;
-				font-size: 20px;
+				padding: 18px 20px;
+				font-size: 16px;
 				font-weight: 600;
 				cursor: pointer;
 				display: flex;
@@ -609,24 +661,30 @@
 				align-items: center;
 				color: var(--text-primary);
 				background-color: rgba(255, 255, 255, 0.02);
+				min-height: 60px;
+				-webkit-tap-highlight-color: transparent;
 			}
 
 			.faq-answer {
-				padding: 0 30px;
+				padding: 0 20px;
 				max-height: 0;
 				overflow: hidden;
-				transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+				transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 				color: var(--text-secondary);
+				font-size: 15px;
+				line-height: 1.6;
 			}
 
 			.faq-answer.active {
-				padding: 0 30px 30px;
+				padding: 0 20px 20px;
 				max-height: 500px;
 			}
 
 			.faq-question i {
 				transition: transform 0.3s ease;
 				color: var(--primary-color);
+				font-size: 14px;
+				flex-shrink: 0;
 			}
 
 			.faq-item.active .faq-question i {
@@ -636,51 +694,57 @@
 			.contact-info {
 				background: var(--card-bg);
 				border-radius: var(--radius);
-				padding: 40px;
+				padding: 25px 20px;
 				border: 1px solid var(--border-color);
-				box-shadow: 0 10px 30px var(--shadow-color);
+				box-shadow: 0 8px 20px var(--shadow-color);
 				position: relative;
 				z-index: 1;
 			}
 
 			.contact-info h3 {
-				font-size: 28px;
-				margin-bottom: 25px;
+				font-size: 22px;
+				margin-bottom: 20px;
 				color: var(--text-primary);
 				font-weight: 700;
+				line-height: 1.3;
 			}
 
 			.contact-info p {
-				margin-bottom: 15px;
+				margin-bottom: 12px;
 				color: var(--text-secondary);
 				display: flex;
-				align-items: center;
+				align-items: flex-start;
+				font-size: 15px;
+				line-height: 1.6;
 			}
 
 			.contact-info i {
 				color: var(--accent-color);
-				margin-right: 12px;
+				margin-right: 10px;
 				width: 20px;
 				text-align: center;
-				font-size: 18px;
+				font-size: 16px;
+				flex-shrink: 0;
+				margin-top: 2px;
 			}
 			
 			.contact-info a {
 				color: var(--primary-color);
 				text-decoration: none;
 				transition: color 0.3s ease;
+				word-break: break-all;
 			}
 			
-			.contact-info a:hover {
+			.contact-info a:hover, .contact-info a:active {
 				color: var(--accent-color);
 				text-decoration: underline;
 			}
 
-			/* 底部 */
+			/* 底部 - 移动端优化 */
 			footer {
 				background-color: var(--footer-bg);
 				color: white;
-				padding: 60px 0 30px;
+				padding: 40px 0 20px;
 				position: relative;
 				overflow: hidden;
 			}
@@ -700,9 +764,9 @@
 
 			.footer-content {
 				display: flex;
-				justify-content: space-between;
-				flex-wrap: wrap;
-				margin-bottom: 40px;
+				flex-direction: column;
+				gap: 30px;
+				margin-bottom: 30px;
 				position: relative;
 				z-index: 1;
 			}
@@ -710,18 +774,18 @@
 			.footer-logo {
 				display: flex;
 				align-items: center;
-				gap: 15px;
-				margin-bottom: 20px;
+				gap: 12px;
+				margin-bottom: 15px;
 			}
 
 			.footer-logo .logo {
-				width: 50px;
-				height: 50px;
-				border-radius: 12px;
+				width: 45px;
+				height: 45px;
+				border-radius: 10px;
 			}
 
 			.footer-logo h3 {
-				font-size: 24px;
+				font-size: 20px;
 				font-weight: 700;
 				background: var(--gradient-1);
 				-webkit-background-clip: text;
@@ -731,8 +795,8 @@
 
 			.footer-links h4,
 			.footer-contact h4 {
-				font-size: 20px;
-				margin-bottom: 20px;
+				font-size: 18px;
+				margin-bottom: 15px;
 				opacity: 0.9;
 				color: var(--accent-color);
 			}
@@ -742,75 +806,237 @@
 			}
 
 			.footer-links li {
-				margin-bottom: 10px;
+				margin-bottom: 8px;
 			}
 
 			.footer-links a {
 				color: #B0B7C3;
 				text-decoration: none;
 				transition: color 0.3s;
+				font-size: 15px;
 			}
 
-			.footer-links a:hover {
+			.footer-links a:hover, .footer-links a:active {
 				color: var(--accent-color);
 			}
 
 			.copyright {
 				text-align: center;
-				padding-top: 30px;
+				padding-top: 20px;
 				border-top: 1px solid rgba(255, 255, 255, 0.1);
-				font-size: 14px;
+				font-size: 13px;
 				color: #7A8291;
 				position: relative;
 				z-index: 1;
+				line-height: 1.5;
 			}
 
-			/* 响应式设计 */
-			@media (max-width: 768px) {
-				.header-content {
-					flex-direction: column;
-					text-align: center;
-					gap: 20px;
+			/* 响应式设计 - 平板 */
+			@media (min-width: 768px) and (max-width: 1023px) {
+				.container {
+					padding: 0 25px;
 				}
-
+				
 				.hero h2 {
-					font-size: 36px;
+					font-size: 32px;
 				}
-
+				
 				.hero p {
 					font-size: 18px;
 				}
-
-				.features-grid {
-					grid-template-columns: 1fr;
-				}
-
-				.step {
-					flex-direction: column;
-					align-items: center;
-					text-align: center;
-				}
-
-				.step:not(:last-child)::after {
-					display: none;
-				}
-
-				.step-number {
-					margin-right: 0;
-					margin-bottom: 20px;
-				}
-
-				.footer-content {
-					flex-direction: column;
-					gap: 30px;
-				}
-
-				.controls {
-					justify-content: center;
-				}
-
+				
 				.section-title {
 					font-size: 32px;
+				}
+				
+				.features-grid {
+					grid-template-columns: repeat(2, 1fr);
+					gap: 30px;
+				}
+				
+				.feature-card {
+					padding: 30px 25px;
+				}
+				
+				.header-content {
+					flex-direction: row;
+					justify-content: space-between;
+					align-items: center;
+				}
+				
+				.logo-container {
+					flex-direction: row;
+					text-align: left;
+				}
+				
+				.step {
+					flex-direction: row;
+					text-align: left;
+					align-items: flex-start;
+				}
+				
+				.step:not(:last-child)::after {
+					left: 25px;
+					transform: none;
+				}
+				
+				.step-number {
+					margin-right: 20px;
+					margin-bottom: 0;
+				}
+				
+				.footer-content {
+					flex-direction: row;
+					justify-content: space-between;
+				}
+			}
+
+			/* 响应式设计 - 桌面 */
+			@media (min-width: 1024px) {
+				.container {
+					padding: 0 20px;
+				}
+				
+				.header-content {
+					flex-direction: row;
+					justify-content: space-between;
+					align-items: center;
+				}
+				
+				.logo-container {
+					flex-direction: row;
+					text-align: left;
+				}
+				
+				.hero h2 {
+					font-size: 42px;
+				}
+				
+				.hero p {
+					font-size: 20px;
+					max-width: 800px;
+				}
+				
+				.section-title {
+					font-size: 40px;
+					margin-bottom: 70px;
+				}
+				
+				.features-grid {
+					grid-template-columns: repeat(3, 1fr);
+					gap: 40px;
+				}
+				
+				.feature-card {
+					padding: 40px 30px;
+				}
+				
+				.feature-icon {
+					width: 80px;
+					height: 80px;
+				}
+				
+				.feature-icon i {
+					font-size: 36px;
+				}
+				
+				.feature-card h3 {
+					font-size: 24px;
+				}
+				
+				.step {
+					flex-direction: row;
+					text-align: left;
+					align-items: flex-start;
+				}
+				
+				.step:not(:last-child)::after {
+					left: 25px;
+					transform: none;
+				}
+				
+				.step-number {
+					margin-right: 30px;
+					margin-bottom: 0;
+				}
+				
+				.footer-content {
+					flex-direction: row;
+					justify-content: space-between;
+				}
+				
+				.controls {
+					gap: 20px;
+				}
+				
+				.control-btn {
+					padding: 10px 18px;
+				}
+				
+				.toggle-switch {
+					width: 60px;
+				}
+				
+				input:checked+.slider:before {
+					transform: translateX(32px);
+				}
+			}
+
+			/* 小屏幕手机优化 */
+			@media (max-width: 360px) {
+				.container {
+					padding: 0 15px;
+				}
+				
+				.hero h2 {
+					font-size: 24px;
+				}
+				
+				.hero p {
+					font-size: 15px;
+				}
+				
+				.download-btn {
+					padding: 14px 24px;
+					font-size: 15px;
+				}
+				
+				.section-title {
+					font-size: 24px;
+				}
+				
+				.feature-card {
+					padding: 20px 15px;
+				}
+				
+				.feature-icon {
+					width: 50px;
+					height: 50px;
+				}
+				
+				.feature-icon i {
+					font-size: 24px;
+				}
+				
+				.controls {
+					gap: 10px;
+				}
+				
+				.control-btn {
+					padding: 6px 10px;
+					font-size: 13px;
+				}
+				
+				.mode-toggle {
+					font-size: 13px;
+				}
+				
+				.toggle-switch {
+					width: 50px;
+				}
+				
+				input:checked+.slider:before {
+					transform: translateX(22px);
 				}
 			}
 		</style>
@@ -820,13 +1046,13 @@
 		<div class="control-bar">
 			<div class="container">
 				<div class="controls">
-					<button class="control-btn" id="lang-toggle">
+					<button class="control-btn" id="lang-toggle" aria-label="切换语言">
 						<i class="fas fa-language"></i>
 						<span id="lang-text">English</span>
 					</button>
 					<div class="mode-toggle">
 						<span id="mode-text">明亮模式</span>
-						<label class="toggle-switch">
+						<label class="toggle-switch" aria-label="切换暗黑/明亮模式">
 							<input type="checkbox" id="mode-toggle" checked>
 							<span class="slider"></span>
 						</label>
@@ -864,7 +1090,7 @@
 				<h2 data-i18n="hero-title">利用NFC技术，快速配置智能电源</h2>
 				<p data-i18n="hero-description">PRO NFC是一款利用手机NFC读写功能设置智能电源参数的应用程序。让智能电源的配置变得更加便捷、快速，适配多种智能电源设备。</p>
 				<a href="https://apps.apple.com/cn/app/pronfc/id6448912618" class="download-btn" target="_blank"
-					data-i18n="download-btn">
+					data-i18n="download-btn" aria-label="前往App Store下载PRO NFC应用">
 					<i class="fab fa-apple"></i> 前往App Store下载
 				</a>
 			</div>
@@ -1218,10 +1444,20 @@
 				localStorage.setItem('darkMode', isDarkMode);
 			}
 
+			// 检测移动设备触摸事件
+			function isTouchDevice() {
+				return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+			}
+
 			// 初始化页面
 			document.addEventListener('DOMContentLoaded', function() {
 				// 语言切换
 				document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
+				
+				// 添加触摸设备优化
+				if (isTouchDevice()) {
+					document.body.classList.add('touch-device');
+				}
 
 				// 暗黑模式切换
 				document.getElementById('mode-toggle').addEventListener('change', toggleDarkMode);
@@ -1284,10 +1520,13 @@
 
 						const targetElement = document.querySelector(targetId);
 						if (targetElement) {
-							window.scrollTo({
-								top: targetElement.offsetTop - 100,
-								behavior: 'smooth'
-							});
+							// 移动端优化：添加小延迟确保滚动正确
+							setTimeout(() => {
+								window.scrollTo({
+									top: targetElement.offsetTop - 80,
+									behavior: 'smooth'
+								});
+							}, 50);
 						}
 					});
 				});
