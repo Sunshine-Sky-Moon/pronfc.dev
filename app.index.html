@@ -113,6 +113,77 @@
 				padding: 0 20px;
 			}
 
+			/* 悬浮工具栏样式 - 固定在右侧 */
+			.floating-toolbar {
+				position: fixed;
+				right: 20px;
+				bottom: 80px;
+				z-index: 999;
+				display: flex;
+				flex-direction: column;
+				gap: 12px;
+				align-items: center;
+			}
+
+			.toolbar-btn {
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				background: var(--gradient-1);
+				border: 2px solid var(--border-color);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 10px rgba(45, 140, 255, 0.3);
+				transition: var(--transition);
+				color: white;
+				font-size: 20px;
+			}
+
+			.toolbar-btn:hover {
+				transform: translateY(-3px) scale(1.1);
+				box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(45, 140, 255, 0.5);
+				background: var(--gradient-2);
+				border-color: var(--accent-color);
+			}
+
+			.toolbar-btn:active {
+				transform: translateY(0) scale(0.95);
+			}
+
+			.toolbar-btn i {
+				transition: transform 0.3s ease;
+			}
+
+			.toolbar-btn:hover i {
+				transform: scale(1.1);
+			}
+
+			#back-to-top {
+				display: none;
+			}
+
+			/* 移动端隐藏悬浮工具栏 */
+			@media (max-width: 768px) {
+				.floating-toolbar {
+					right: 15px;
+					bottom: 60px;
+				}
+				
+				.toolbar-btn {
+					width: 45px;
+					height: 45px;
+					font-size: 18px;
+				}
+			}
+
+			@media (max-width: 480px) {
+				.floating-toolbar {
+					display: none; /* 在小屏幕上隐藏悬浮工具栏 */
+				}
+			}
+
 			/* 顶部控制栏 - 移动端优化 */
 			.control-bar {
 				background-color: rgba(22, 27, 42, 0.95);
@@ -464,7 +535,7 @@
 
 			.features-grid {
 				display: grid;
-				grid-template-columns: 1fr;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 				gap: 25px;
 			}
 
@@ -1064,6 +1135,20 @@
 		</style>
 	</head>
 	<body class="dark-mode">
+		<!-- 悬浮工具栏 -->
+		<div class="floating-toolbar">
+			<button id="back-to-top" class="toolbar-btn" aria-label="回到顶部" title="回到顶部">
+				<i class="fas fa-chevron-up"></i>
+			</button>
+			<!-- 可扩展的工具栏按钮 -->
+			<button class="toolbar-btn" aria-label="功能扩展1" title="功能扩展1">
+				<i class="fas fa-star"></i>
+			</button>
+			<button class="toolbar-btn" aria-label="功能扩展2" title="功能扩展2">
+				<i class="fas fa-share-alt"></i>
+			</button>
+		</div>
+
 		<!-- 控制栏 -->
 		<div class="control-bar">
 			<div class="container">
@@ -1111,7 +1196,8 @@
 		<section class="hero">
 			<div class="container">
 				<h2 data-i18n="hero-title">利用NFC技术，快速配置智能电源</h2>
-				<p data-i18n="hero-description">PRO NFC是一款利用手机NFC读写功能设置智能电源参数的应用程序。让智能电源的配置变得更加便捷、快速，适配本司自研的多种智能电源设备。</p>
+				<p data-i18n="hero-description">PRO NFC是一款利用手机NFC读写功能设置智能电源参数的应用程序。让智能电源的配置变得更加便捷、快速，适配本司自研的多种智能电源设备。
+				</p>
 				<a href="https://apps.apple.com/cn/app/pronfc/id6448912618" class="download-btn" target="_blank"
 					data-i18n="download-btn" aria-label="前往App Store下载PRO NFC应用">
 					<i class="fab fa-apple"></i> 前往App Store下载
@@ -1189,7 +1275,7 @@
 		<!-- 技术支持 -->
 		<section class="support" id="support">
 			<div class="container">
-				<h2 class="section-title" data-i18n="support-title">技术支持与常见问题</h2>
+				<h2 class="section-title" data-i18n="support-title">技术支持与FAQ</h2>
 				<div class="faq-container">
 					<div class="faq-item">
 						<div class="faq-question">
@@ -1328,7 +1414,7 @@
 					'step4-desc': '完成配置后保存设置。所有配置记录将存储在应用中，方便您随时查看和重新编辑。',
 
 					// 技术支持
-					'support-title': '技术支持与常见问题',
+					'support-title': '技术支持与FAQ',
 					'faq1-q': 'PRO NFC支持哪些设备？',
 					'faq1-a': 'PRO NFC支持多款本司自研的具有NFC功能的智能电源设备。具体兼容设备列表请联系我们获取最新信息。',
 					'faq2-q': '我的手机没有NFC功能可以使用吗？',
@@ -1429,60 +1515,38 @@
 			// 当前语言
 			let currentLang = 'zh';
 
-			// 切换语言函数
-			function toggleLanguage() {
-				currentLang = currentLang === 'zh' ? 'en' : 'zh';
-				updateTextContent();
-
-				// 更新按钮文本
-				document.getElementById('lang-text').textContent = translations[currentLang]['lang-text'];
-
-				// 更新模式文本
-				const isDarkMode = document.body.classList.contains('dark-mode');
-				document.getElementById('mode-text').textContent =
-					isDarkMode ? (currentLang === 'zh' ? '明亮模式' : 'Light Mode') :
-					(currentLang === 'zh' ? '暗黑模式' : 'Dark Mode');
-			}
-
-			// 更新文本内容
-			function updateTextContent() {
-				document.querySelectorAll('[data-i18n]').forEach(element => {
-					const key = element.getAttribute('data-i18n');
-					if (translations[currentLang][key]) {
-						element.textContent = translations[currentLang][key];
-					}
-				});
-			}
-
-			// 切换暗黑/明亮模式
-			function toggleDarkMode() {
-				document.body.classList.toggle('dark-mode');
-				document.body.classList.toggle('light-mode');
-				const isDarkMode = document.body.classList.contains('dark-mode');
-
-				// 更新模式文本
-				document.getElementById('mode-text').textContent =
-					isDarkMode ? (currentLang === 'zh' ? '明亮模式' : 'Light Mode') :
-					(currentLang === 'zh' ? '暗黑模式' : 'Dark Mode');
-
-				// 保存到本地存储
-				localStorage.setItem('darkMode', isDarkMode);
-			}
-
-			// 检测移动设备触摸事件
-			function isTouchDevice() {
-				return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
-			}
-
-			// 初始化页面
+			// 检查页面加载时是否应该恢复滚动位置
 			document.addEventListener('DOMContentLoaded', function() {
+				// 检查是否有保存的滚动位置
+				const savedScrollPosition = sessionStorage.getItem('scrollPosition');
+				const savedLang = sessionStorage.getItem('targetLang');
+				
+				if (savedScrollPosition && savedLang) {
+					// 设置目标语言
+					currentLang = savedLang;
+					updateTextContent();
+					
+					// 更新按钮文本
+					document.getElementById('lang-text').textContent = translations[currentLang]['lang-text'];
+					
+					// 更新模式文本
+					const isDarkMode = document.body.classList.contains('dark-mode');
+					document.getElementById('mode-text').textContent =
+						isDarkMode ? (currentLang === 'zh' ? '明亮模式' : 'Light Mode') :
+						(currentLang === 'zh' ? '暗黑模式' : 'Dark Mode');
+					
+					// 清除保存的状态
+					sessionStorage.removeItem('scrollPosition');
+					sessionStorage.removeItem('targetLang');
+					
+					// 滚动到保存的位置
+					setTimeout(() => {
+						window.scrollTo(0, parseInt(savedScrollPosition, 10));
+					}, 100);
+				}
+				
 				// 语言切换
 				document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
-
-				// 添加触摸设备优化
-				if (isTouchDevice()) {
-					document.body.classList.add('touch-device');
-				}
 
 				// 暗黑模式切换
 				document.getElementById('mode-toggle').addEventListener('change', toggleDarkMode);
@@ -1503,6 +1567,26 @@
 				document.getElementById('mode-text').textContent =
 					isDarkMode ? (currentLang === 'zh' ? '明亮模式' : 'Light Mode') :
 					(currentLang === 'zh' ? '暗黑模式' : 'Dark Mode');
+
+				// 获取回到顶部按钮
+				const backToTopBtn = document.getElementById('back-to-top');
+				
+				// 监听滚动事件，控制回到顶部按钮的显示/隐藏
+				window.addEventListener('scroll', function() {
+					if (window.pageYOffset > 300) {
+						backToTopBtn.style.display = 'flex';
+					} else {
+						backToTopBtn.style.display = 'none';
+					}
+				});
+				
+				// 回到顶部功能
+				backToTopBtn.addEventListener('click', function() {
+					window.scrollTo({
+						top: 0,
+						behavior: 'smooth'
+					});
+				});
 
 				// FAQ交互
 				document.querySelectorAll('.faq-question').forEach(question => {
@@ -1556,6 +1640,45 @@
 					});
 				});
 			});
+
+			// 切换语言函数 - 修改为强制刷新页面
+			function toggleLanguage() {
+				// 保存当前滚动位置
+				const scrollPosition = window.pageYOffset;
+				sessionStorage.setItem('scrollPosition', scrollPosition);
+				
+				// 确定目标语言
+				const targetLang = currentLang === 'zh' ? 'en' : 'zh';
+				sessionStorage.setItem('targetLang', targetLang);
+				
+				// 强制刷新页面
+				location.reload();
+			}
+
+			// 更新文本内容
+			function updateTextContent() {
+				document.querySelectorAll('[data-i18n]').forEach(element => {
+					const key = element.getAttribute('data-i18n');
+					if (translations[currentLang][key]) {
+						element.textContent = translations[currentLang][key];
+					}
+				});
+			}
+
+			// 切换暗黑/明亮模式
+			function toggleDarkMode() {
+				document.body.classList.toggle('dark-mode');
+				document.body.classList.toggle('light-mode');
+				const isDarkMode = document.body.classList.contains('dark-mode');
+
+				// 更新模式文本
+				document.getElementById('mode-text').textContent =
+					isDarkMode ? (currentLang === 'zh' ? '明亮模式' : 'Light Mode') :
+					(currentLang === 'zh' ? '暗黑模式' : 'Dark Mode');
+
+				// 保存到本地存储
+				localStorage.setItem('darkMode', isDarkMode);
+			}
 		</script>
 	</body>
 </html>
