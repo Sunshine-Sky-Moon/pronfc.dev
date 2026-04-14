@@ -455,8 +455,8 @@
 					<span class="btn-icon">▶</span>
 					<span id="launch-text">启动Luminii定制版</span>
 				</button>
-				<div class="launch-note">
-					<span id="launch-note">注：iPhone用户请使用Safari浏览器，否则可能启动不成功。</span>
+				<div id="launch-note" class="launch-note">
+					注：iPhone用户请使用Safari浏览器，否则可能启动不成功。
 				</div>
 			</section>
 
@@ -512,7 +512,7 @@
 					'feature-2': 'Luminii定制Logo与启动画面',
 					'feature-3': '优化的NFC读写性能',
 					'launch-text': '启动Luminii定制版',
-					'launch-note': '<strong>注</strong>：iPhone用户请使用Safari浏览器，否则可能启动不成功。',
+					'launch-note': '<strong>注：</strong>iPhone用户请使用Safari浏览器，否则可能启动不成功。',
 					'download-title': '下载ProNFC应用程序',
 					'download-subtitle': '请根据您的设备类型选择下载方式',
 					'ios-text': 'AppStore 下载',
@@ -539,7 +539,7 @@
 					'feature-2': 'Luminii customized logo and splash screen',
 					'feature-3': 'Optimized NFC read/write performance',
 					'launch-text': 'Launch Luminii Edition',
-					'launch-note': '<strong>Note</strong>: iPhone users please use the Safari browser, otherwise the app may fail to launch.',
+					'launch-note': '<strong>Note: </strong>iPhone users please use the Safari browser, otherwise the app may fail to launch.',
 					'download-title': 'Download ProNFC Application',
 					'download-subtitle': 'Please select download method based on your device type',
 					'ios-text': 'Download on AppStore',
@@ -591,7 +591,7 @@
 				document.getElementById('feature-2').textContent = texts['feature-2'];
 				document.getElementById('feature-3').textContent = texts['feature-3'];
 				document.getElementById('launch-text').textContent = texts['launch-text'];
-				document.getElementById('launch-note').textContent = texts['launch-note'];
+				document.getElementById('launch-note').innerHTML = texts['launch-note'];
 
 				// 更新下载区域
 				document.getElementById('download-title').textContent = texts['download-title'];
